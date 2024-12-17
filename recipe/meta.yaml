@@ -6,21 +6,21 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 8fabcccf5c7e29059b5badd6786dd7675a258a203c58babf10077d9c90ada54f
 
 build:
   noarch: python
-  number: 1
+  number: 2
   script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
   host:
-    - python >=3.7
+    - python {{ python_min }}
     - pip
     - setuptools_scm
   run:
-    - python >=3.7
+    - python >={{ python_min }}
     - dask
     - typing_extensions
     - importlib-metadata >=1.5.0  # not needed for py>37 but keeping for noarch
@@ -30,6 +30,7 @@ test:
     - resource_backed_dask_array
   requires:
     - pip
+    - python {{ python_min }}
   commands:
     - pip check
 
